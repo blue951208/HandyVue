@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <span>Test VIEW</span>
+  <span>포트폴리오 관리</span>
 </template>
 
 <style scoped>

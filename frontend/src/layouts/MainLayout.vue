@@ -1,7 +1,42 @@
 <script setup lang="ts">
 import { RouterView, useRouter } from 'vue-router';
+import {ref} from "vue";
 
 const router = useRouter();
+
+interface MenuItem {
+  id: number;
+  name: string;
+  path?: string;
+  isOpen?: boolean; // 메뉴가 펼쳐져 있는지 상태값
+  children?: MenuItem[];
+}
+
+const menuList = ref<MenuItem[]>([
+  {
+    id: 1,
+    name: 'HandyExp',
+    isOpen: false,
+    children: [
+      { id: 11, name: '일정 화면', path: '/handyExp/calendar' }
+    ]
+  },
+  {
+    id: 2,
+    name: 'HandyReact',
+    isOpen: false,
+    children: [
+      { id: 21, name: '포트폴리오', path: '/handyReact/portfolio' }
+    ]
+  }
+]);
+
+// 메뉴 클릭 시 열고 닫는 함수
+const toggleMenu = (item: MenuItem) => {
+  if (item.children) {
+    item.isOpen = !item.isOpen;
+  }
+};
 
 // 홈으로 이동하는 함수
 const goHome = () => {
@@ -17,9 +52,26 @@ const goHome = () => {
         HOME
       </div>
       <nav class="menu-list">
-        <router-link to="/test" class="menu-item">테스트 화면</router-link>
-        <router-link to="/product" class="menu-item">상품 관리</router-link>
-        <router-link to="/setting" class="menu-item">시스템 설정</router-link>
+<!--        <router-link to="/test" class="menu-item">테스트 화면</router-link>-->
+<!--        <router-link to="/product" class="menu-item">상품 관리</router-link>-->
+<!--        <router-link to="/setting" class="menu-item">시스템 설정</router-link>-->
+        <div v-for="menu in menuList" :key="menu.id" class="menu-group">
+          <div class="menu-lv1" @click="toggleMenu(menu)">
+            {{ menu.name }}
+            <span v-if="menu.children">{{ menu.isOpen ? '▼' : '▶' }}</span>
+          </div>
+
+          <div v-if="menu.isOpen && menu.children" class="menu-lv2-container">
+            <router-link
+                v-for="child in menu.children"
+                :key="child.id"
+                :to="child.path!"
+                class="menu-item menu-lv2"
+            >
+              {{ child.name }}
+            </router-link>
+          </div>
+        </div>
       </nav>
     </aside>
 
@@ -70,7 +122,6 @@ const goHome = () => {
   text-decoration: none;
   color: #333;
   margin-bottom: 5px;
-  border: 1px solid #eee;
 }
 
 .menu-item:hover {
@@ -94,5 +145,48 @@ const goHome = () => {
 .page-view {
   flex: 1;
   padding: 20px;
+}
+
+.menu-group {
+  margin-bottom: 5px;
+}
+
+.menu-lv1 {
+  padding: 12px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+.menu-lv1:hover {
+  background-color: #e9ecef;
+}
+
+.menu-lv2-container {
+  background-color: #fff;
+}
+
+.menu-lv2 {
+  padding: 10px 10px 10px 30px; /* 왼쪽 들여쓰기로 Lv2 표시 */
+  font-size: 0.9em;
+  color: #666;
+  text-decoration: none;
+  display: block;
+  border-bottom: 1px dotted #eee;
+}
+
+.menu-lv2:hover {
+  color: #42b983; /* Vue 공식 컬러 */
+  background-color: #f0fff4;
+}
+
+/* 현재 선택된 메뉴 강조 (Router 전용 클래스) */
+.router-link-active {
+  color: #42b983;
+  font-weight: bold;
+  background-color: #f0fff4;
 }
 </style>

@@ -9,14 +9,14 @@ const router = createRouter({
             component: MainLayout, // 기본 레이아웃 적용
             children: [
                 {
-                    path: '/',
-                    name: 'home',
-                    component: () => import('../view/HomeView.vue')
+                    path: '/handyExp/calendar',
+                    name: 'calendarMng',
+                    component: () => import('../view/handyExp/calendarMng.vue')
                 },
                 {
-                    path: '/test',
-                    name: 'test',
-                    component: () => import('../view/TestView.vue')
+                    path: '/handyReact/portfolio',
+                    name: 'portfolioMng',
+                    component: () => import('../view/handyReact/portfolioMng.vue')
                 }
             ]
         }

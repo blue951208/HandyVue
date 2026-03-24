@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <span>HomeView</span>
+  <span>일정 관리</span>
 </template>
 
 <style scoped>
