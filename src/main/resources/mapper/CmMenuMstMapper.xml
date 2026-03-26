@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.handy.handyvue.mapper.CmMenuMstMapper">
+
+    <select id="selectCareerInfoList" parameterType="map" resultType="org.handy.handyvue.dto.CmMenuMstDto">
+        select *
+          from cm_menu_mst
+         where v_flag_del = 'N'
+           and v_use_yn = 'Y'
+         order by coalesce(v_parent_menu_id , v_menu_id), n_level, n_sort
+    </select>
+</mapper>
