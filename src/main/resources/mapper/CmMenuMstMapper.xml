@@ -3,7 +3,7 @@
 
 <mapper namespace="org.handy.handyvue.mapper.CmMenuMstMapper">
 
-    <select id="selectCareerInfoList" parameterType="map" resultType="org.handy.handyvue.dto.CmMenuMstDto">
+    <select id="selectCmMenuList" parameterType="map" resultType="org.handy.handyvue.dto.CmMenuMstDto">
         select *
           from cm_menu_mst
          where v_flag_del = 'N'
