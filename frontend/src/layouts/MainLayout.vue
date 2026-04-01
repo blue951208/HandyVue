@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { RouterView, useRouter } from 'vue-router';
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {getMenuList} from "@/api/menu.ts";
 
 const router = useRouter();
 
+// 1. 데이터 타입 정의
 interface MenuItem {
   id: number;
   name: string;
@@ -11,25 +13,57 @@ interface MenuItem {
   isOpen?: boolean; // 메뉴가 펼쳐져 있는지 상태값
   children?: MenuItem[];
 }
+interface Menu {
+  vmenuId: string;
+  vmenuNm: string;
+  vparentMenuId?: string;
+  nlevel: number;
+  nsort: number;
+  vurl?: string;
+  vuseYn?: string;
+  isOpen: boolean; // false로 초기화
+}
 
-const menuList = ref<MenuItem[]>([
-  {
-    id: 1,
-    name: 'HandyExp',
-    isOpen: false,
-    children: [
-      { id: 11, name: '일정 화면', path: '/handyExp/calendar' }
-    ]
-  },
-  {
-    id: 2,
-    name: 'HandyReact',
-    isOpen: false,
-    children: [
-      { id: 21, name: '포트폴리오', path: '/handyReact/portfolio' }
-    ]
+// 2. 반응형 데이터 변수
+const menuData = ref<Menu[]>([]);
+const menuList = ref<MenuItem[]>([]);
+
+const loadMenu = async () => {
+  console.log('loadMenu');
+  try {
+    const response = await getMenuList();
+    menuData.value = response.data;
+    // 메뉴 데이터를 MenuItem 형태로 변환
+    menuList.value = menuData.value.map((item: any) => ({
+      id: item.vmenuId,
+      name: item.vmenuNm,
+      isOpen: item.isOpen,
+      children: item.children
+    }));
+
+  } catch (error) {
+    console.log('메뉴 로드 error : ',error);
   }
-]);
+}
+
+// const menuList = ref<MenuItem[]>([
+//   {
+//     id: 1,
+//     name: 'HandyExp',
+//     isOpen: false,
+//     children: [
+//       { id: 11, name: '일정 화면', path: '/handyExp/calendar' }
+//     ]
+//   },
+//   {
+//     id: 2,
+//     name: 'HandyReact',
+//     isOpen: false,
+//     children: [
+//       { id: 21, name: '포트폴리오', path: '/handyReact/portfolio' }
+//     ]
+//   }
+// ]);
 
 // 메뉴 클릭 시 열고 닫는 함수
 const toggleMenu = (item: MenuItem) => {
@@ -42,6 +76,11 @@ const toggleMenu = (item: MenuItem) => {
 const goHome = () => {
   router.push('/');
 };
+
+onMounted(() => {
+  loadMenu();
+});
+
 </script>
 
 <template>
@@ -64,11 +103,11 @@ const goHome = () => {
           <div v-if="menu.isOpen && menu.children" class="menu-lv2-container">
             <router-link
                 v-for="child in menu.children"
-                :key="child.id"
-                :to="child.path!"
+                :key="child.vmenuId"
+                :to="child.vurl!"
                 class="menu-item menu-lv2"
             >
-              {{ child.name }}
+              {{ child.vmenuNm }}
             </router-link>
           </div>
         </div>

@@ -23,6 +23,7 @@ public class CmMenuMstController {
     @GetMapping("/list")
     public List<CmMenuMstDto> selectCmMenuList() {
         System.out.println("selectCmMenuList called");
-        return cmMenuMstService.selectCmMenuList();
+        List<CmMenuMstDto> list = cmMenuMstService.selectCmMenuList();
+        return list;
     }
 }

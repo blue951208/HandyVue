@@ -3,11 +3,42 @@
 
 <mapper namespace="org.handy.handyvue.mapper.CmMenuMstMapper">
 
-    <select id="selectCmMenuList" parameterType="map" resultType="org.handy.handyvue.dto.CmMenuMstDto">
-        select *
-          from cm_menu_mst
-         where v_flag_del = 'N'
-           and v_use_yn = 'Y'
-         order by coalesce(v_parent_menu_id , v_menu_id), n_level, n_sort
+    <resultMap id="menuTreeResultMap" type="org.handy.handyvue.dto.CmMenuMstDto">
+        <id property="vMenuId" column="v_menu_id" />
+        <result property="vMenuNm" column="v_menu_nm" />
+        <result property="isOpen" column="is_open" />
+
+        <collection property="children" ofType="org.handy.handyvue.dto.CmMenuMstDto"
+                    select="selectSubMenuList" column="v_menu_id" />
+    </resultMap>
+
+<!--    <select id="selectCmMenuList" parameterType="map" resultType="org.handy.handyvue.dto.CmMenuMstDto">-->
+<!--        select cmm.*-->
+<!--             , false as isOpen-->
+<!--             , (select coalesce(jsonb_agg(cmm2.* order by n_sort), '[]'::jsonb)-->
+<!--                  from cm_menu_mst cmm2-->
+<!--                 where cmm2.v_parent_menu_id = cmm.v_menu_id-->
+<!--                   and v_flag_del = 'N'-->
+<!--                   and v_use_yn = 'Y') as children-->
+<!--          from cm_menu_mst cmm-->
+<!--         where v_flag_del = 'N'-->
+<!--           and v_use_yn = 'Y'-->
+<!--           and n_level = 1-->
+<!--         order by v_menu_id, n_sort;-->
+<!--    </select>-->
+
+    <select id="selectCmMenuList" resultMap="menuTreeResultMap">
+        SELECT *, false as is_open
+        FROM cm_menu_mst
+        WHERE n_level = 1 AND v_use_yn = 'Y' AND v_flag_del = 'N'
+        ORDER BY n_sort
     </select>
+
+    <select id="selectSubMenuList" resultMap="menuTreeResultMap">
+        SELECT *
+        FROM cm_menu_mst
+        WHERE v_parent_menu_id = #{v_menu_id} AND v_use_yn = 'Y' AND v_flag_del = 'N'
+        ORDER BY n_sort
+    </select>
+
 </mapper>
