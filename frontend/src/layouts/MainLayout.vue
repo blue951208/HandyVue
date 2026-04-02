@@ -11,7 +11,7 @@ interface MenuItem {
   name: string;
   path?: string;
   isOpen?: boolean; // 메뉴가 펼쳐져 있는지 상태값
-  children?: MenuItem[];
+  children?: Menu[];
 }
 interface Menu {
   vmenuId: string;
