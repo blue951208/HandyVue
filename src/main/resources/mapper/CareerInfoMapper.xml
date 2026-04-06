@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.handy.handyvue.mapper.CareerInfoMapper">
+
+    <select id="selectCareerInfoList" parameterType="map" resultType="org.handy.handyvue.dto.CareerInfoDto">
+        SELECT ci.v_career_id
+             , ci.v_career_nm
+             , ci.d_start_dtm
+             , ci.d_end_dtm
+             , (EXTRACT(year FROM AGE(d_end_dtm, d_start_dtm)) * 12 +
+                EXTRACT(month FROM AGE(d_end_dtm, d_start_dtm))) AS total_months
+          FROM career_info ci
+         ORDER BY ci.d_start_dtm
+    </select>
+
+</mapper>
