@@ -8,4 +8,8 @@ import java.util.List;
 @Mapper
 public interface CareerInfoMapper {
     List<CareerInfoDto> selectCareerInfoList();
+
+    void insertCareerInfo(CareerInfoDto careerInfoDto);
+
+    void updateCareerInfo(CareerInfoDto careerInfoDto);
 }

@@ -3,12 +3,11 @@ package org.handy.handyvue.controller;
 import org.handy.handyvue.dto.CareerInfoDto;
 import org.handy.handyvue.service.CareerInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/career")
@@ -22,5 +21,36 @@ public class CareerInfoController {
         System.out.println("selectCmMenuList called");
         List<CareerInfoDto> list = careerInfoService.selectCareerInfoList();
         return list;
+    }
+
+    @PostMapping("/insert")
+    @ResponseBody
+    public Map<String, Object> insertCareerInfo(@RequestBody CareerInfoDto careerInfoDto) {
+        System.out.println("insertCareerInfo called with: " + careerInfoDto);
+        Map<String, Object> result = new HashMap<>();
+        try {
+            careerInfoService.insertCareerInfo(careerInfoDto);
+            result.put("status", "success");
+        } catch (Exception e) {
+            result.put("status", "error");
+            System.out.println("Error inserting career info: " + e.getMessage());
+        }
+
+        return result;
+    }
+
+    @PostMapping("/update")
+    public Map<String, Object> updateCareerInfo(@RequestBody CareerInfoDto careerInfoDto) {
+        System.out.println("updateCareerInfo called with: " + careerInfoDto);
+        Map<String, Object> result = new HashMap<>();
+        try {
+            careerInfoService.updateCareerInfo(careerInfoDto);
+            result.put("status", "success");
+        } catch (Exception e) {
+            result.put("status", "error");
+            System.out.println("Error update career info: " + e.getMessage());
+        }
+
+        return result;
     }
 }

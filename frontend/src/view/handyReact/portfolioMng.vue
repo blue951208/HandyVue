@@ -4,10 +4,15 @@ import {onMounted, ref} from "vue";
 
 interface Carrer {
   vcareerId: string;
-  vcareerNm: string;
-  dstartDtm: string;
-  dendDtm: string;
+  vCareerNm: string;
+  dStartDtm: string;
+  dEndDtm: string;
 }
+const careerInfo = ref({
+  vCareerNm: '',
+  dStartDtm: '',
+  dEndDtm: ''
+});
 
 const careerList = ref<Carrer[]>([]);
 
@@ -15,6 +20,18 @@ const getCarrerList = async () => {
   console.log('getCarrerList');
   const response = await axios.get("http://localhost:8080/api/career/list");
   careerList.value = response.data;
+}
+
+const insertCareerInfo = async () => {
+  console.log('chk : ',careerInfo.value);
+  const res = await axios.post("http://localhost:8080/api/career/insert", careerInfo.value);
+  console.log('res : ',res);
+  if (res.status === 200) {
+    alert('등록 성공');
+    getCarrerList();
+  } else {
+    alert('등록 실패');
+  }
 }
 
 onMounted(() => {
@@ -26,24 +43,25 @@ onMounted(() => {
 <template>
   <span>포트폴리오 관리</span>
 
-  <form>
+  <form style="margin-top: 30px; border: 1px solid black; padding: 20px; width: 400px">
     <div>
       <h2>경력</h2>
       <!-- 경력명 -->
       <div>
-        <label for="careerName">경력명:</label>
-        <input type="text" id="careerName" name="careerName" />
+        <label for="vCareerNm">경력명:</label>
+        <input type="text" id="vCareerNm" name="vCareerNm" v-model="careerInfo.vCareerNm"/>
       </div>
       <!-- 시작 기간 -->
       <div>
-        <label for="startDate">시작 기간:</label>
-        <input type="date" id="startDate" name="startDate" />
+        <label for="dStartDtm">시작 기간:</label>
+        <input type="date" id="dStartDtm" name="dStartDtm" v-model="careerInfo.dStartDtm"/>
       </div>
       <!-- 종료 기간 -->
       <div>
-        <label for="endDate">종료 기간:</label>
-        <input type="date" id="endDate" name="endDate" />
+        <label for="dEndDtm">종료 기간:</label>
+        <input type="date" id="dEndDtm" name="dEndDtm" v-model="careerInfo.dEndDtm"/>
       </div>
+      <button type="button" @click="insertCareerInfo">등록/수정</button>
     </div>
   </form>
 
@@ -65,9 +83,9 @@ onMounted(() => {
     <tbody>
       <tr v-for="career in careerList" :key="career.vcareerId">
         <td>{{ career.vcareerId }}</td>
-        <td>{{ career.vcareerNm }}</td>
-        <td>{{ career.dstartDtm }}</td>
-        <td>{{ career.dendDtm }}</td>
+        <td>{{ career.vCareerNm }}</td>
+        <td>{{ career.dStartDtm }}</td>
+        <td>{{ career.dEndDtm }}</td>
       </tr>
     </tbody>
   </table>

@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface CareerInfoService {
     List<CareerInfoDto> selectCareerInfoList();
+
+    void insertCareerInfo(CareerInfoDto careerInfoDto);
+
+    void updateCareerInfo(CareerInfoDto careerInfoDto);
 }

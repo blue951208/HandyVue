@@ -14,4 +14,28 @@
          ORDER BY ci.d_start_dtm
     </select>
 
+    <insert id="insertCareerInfo" parameterType="org.handy.handyvue.dto.CareerInfoDto">
+        INSERT INTO career_info (
+            v_career_id
+           ,v_career_nm
+           ,d_start_dtm
+           ,d_end_dtm
+           ,v_flag_del
+        ) VALUES (
+            ('C'::text || generate_career_id())
+          , #{vCareerNm}
+          , #{dStartDtm}::timestamp
+          , #{dEndDtm}::timestamp
+          , 'N'
+        )
+    </insert>
+
+    <update id="updateCareerInfo" parameterType="org.handy.handyvue.dto.CareerInfoDto">
+        UPDATE career_info
+           SET v_career_nm = #{vCareerNm}
+             , d_start_dtm = #{dStartDtm}::timestamp
+             , d_end_dtm = #{dEndDtm}::timestamp
+         WHERE v_career_id = #{vCareerId}
+    </update>
+
 </mapper>

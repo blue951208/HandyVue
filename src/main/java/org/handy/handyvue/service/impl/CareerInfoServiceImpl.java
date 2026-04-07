@@ -19,4 +19,13 @@ public class CareerInfoServiceImpl implements CareerInfoService {
         return careerInfoMapper.selectCareerInfoList();
     }
 
+    @Override
+    public void insertCareerInfo(CareerInfoDto careerInfoDto) {
+        careerInfoMapper.insertCareerInfo(careerInfoDto);
+    }
+
+    @Override
+    public void updateCareerInfo(CareerInfoDto careerInfoDto) {
+        careerInfoMapper.updateCareerInfo(careerInfoDto);
+    }
 }
