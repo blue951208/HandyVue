@@ -9,6 +9,8 @@ import java.util.List;
 public interface CareerInfoMapper {
     List<CareerInfoDto> selectCareerInfoList();
 
+    CareerInfoDto selectCareerInfoDtl(CareerInfoDto careerInfoDto);
+
     void insertCareerInfo(CareerInfoDto careerInfoDto);
 
     void updateCareerInfo(CareerInfoDto careerInfoDto);

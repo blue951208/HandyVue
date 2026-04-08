@@ -3,7 +3,7 @@
 
 <mapper namespace="org.handy.handyvue.mapper.CareerInfoMapper">
 
-    <select id="selectCareerInfoList" parameterType="map" resultType="org.handy.handyvue.dto.CareerInfoDto">
+    <select id="selectCareerInfoList" resultType="org.handy.handyvue.dto.CareerInfoDto">
         SELECT ci.v_career_id
              , ci.v_career_nm
              , ci.d_start_dtm
@@ -11,7 +11,23 @@
              , (EXTRACT(year FROM AGE(d_end_dtm, d_start_dtm)) * 12 +
                 EXTRACT(month FROM AGE(d_end_dtm, d_start_dtm))) AS total_months
           FROM career_info ci
+         WHERE ci.v_flag_del = 'N'
          ORDER BY ci.d_start_dtm
+    </select>
+
+    <select id="selectCareerInfoDtl" parameterType="org.handy.handyvue.dto.CareerInfoDto" resultType="org.handy.handyvue.dto.CareerInfoDto">
+        SELECT ci.v_career_id
+        , ci.v_career_nm
+        , to_char(ci.d_start_dtm, 'YYYY-MM-DD') as d_start_dtm
+        , to_char(ci.d_end_dtm, 'YYYY-MM-DD') as d_end_dtm
+        , (EXTRACT(year FROM AGE(d_end_dtm, d_start_dtm)) * 12 +
+        EXTRACT(month FROM AGE(d_end_dtm, d_start_dtm))) AS total_months
+        FROM career_info ci
+        WHERE ci.v_flag_del = 'N'
+        <if test="vCareerId != '' and vCareerId != null">
+            AND ci.v_career_id = #{vCareerId}
+        </if>
+        ORDER BY ci.d_start_dtm
     </select>
 
     <insert id="insertCareerInfo" parameterType="org.handy.handyvue.dto.CareerInfoDto">

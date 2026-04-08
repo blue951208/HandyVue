@@ -23,6 +23,13 @@ public class CareerInfoController {
         return list;
     }
 
+    @GetMapping("/detail")
+    public CareerInfoDto selectCareerInfoDtl(CareerInfoDto careerInfoDto) {
+        System.out.println("selectCareerInfoDtl called");
+        CareerInfoDto info = careerInfoService.selectCareerInfoDtl(careerInfoDto);
+        return info;
+    }
+
     @PostMapping("/insert")
     @ResponseBody
     public Map<String, Object> insertCareerInfo(@RequestBody CareerInfoDto careerInfoDto) {

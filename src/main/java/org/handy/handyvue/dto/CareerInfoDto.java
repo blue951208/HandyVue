@@ -5,9 +5,10 @@ import lombok.Data;
 
 @Data
 public class CareerInfoDto {
+    @JsonProperty("vCareerId")
     private String vCareerId;
 
-    @JsonProperty("vCareerNm") // JSON의 키값과 강제로 맞춤
+    @JsonProperty("vCareerNm")
     private String vCareerNm;
 
     @JsonProperty("dStartDtm")

@@ -3,12 +3,13 @@ import axios from "axios";
 import {onMounted, ref} from "vue";
 
 interface Carrer {
-  vcareerId: string;
+  vCareerId: string;
   vCareerNm: string;
   dStartDtm: string;
   dEndDtm: string;
 }
 const careerInfo = ref({
+  vCareerId: '',
   vCareerNm: '',
   dStartDtm: '',
   dEndDtm: ''
@@ -22,9 +23,22 @@ const getCarrerList = async () => {
   careerList.value = response.data;
 }
 
-const insertCareerInfo = async () => {
+const getCareerInfo = async (vcareerId: string) => {
+  console.log('getCareerInfo : ', vcareerId);
+  const response = await axios.get('http://localhost:8080/api/career/detail', {
+    params: {
+      vCareerId: vcareerId
+    }
+  });
+
+  console.log('getCareerInfo : ',response);
+  careerInfo.value = response.data;
+}
+
+const updateCareerInfo = async () => {
   console.log('chk : ',careerInfo.value);
-  const res = await axios.post("http://localhost:8080/api/career/insert", careerInfo.value);
+  const url = careerInfo.value.vCareerId ? "http://localhost:8080/api/career/update" : "http://localhost:8080/api/career/insert";
+  const res = await axios.post(url, careerInfo.value);
   console.log('res : ',res);
   if (res.status === 200) {
     alert('등록 성공');
@@ -32,6 +46,14 @@ const insertCareerInfo = async () => {
   } else {
     alert('등록 실패');
   }
+
+  // 데이터 초기화
+  careerInfo.value = {
+    vCareerId: '',
+    vCareerNm: '',
+    dStartDtm: '',
+    dEndDtm: ''
+  };
 }
 
 onMounted(() => {
@@ -61,7 +83,7 @@ onMounted(() => {
         <label for="dEndDtm">종료 기간:</label>
         <input type="date" id="dEndDtm" name="dEndDtm" v-model="careerInfo.dEndDtm"/>
       </div>
-      <button type="button" @click="insertCareerInfo">등록/수정</button>
+      <button type="button" @click="updateCareerInfo">등록/수정</button>
     </div>
   </form>
 
@@ -81,8 +103,8 @@ onMounted(() => {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="career in careerList" :key="career.vcareerId">
-        <td>{{ career.vcareerId }}</td>
+      <tr v-for="career in careerList" :key="career.vCareerId">
+        <td><a href="javascript:void(0)" @click="getCareerInfo(career.vCareerId)">{{ career.vCareerId }}</a></td>
         <td>{{ career.vCareerNm }}</td>
         <td>{{ career.dStartDtm }}</td>
         <td>{{ career.dEndDtm }}</td>
