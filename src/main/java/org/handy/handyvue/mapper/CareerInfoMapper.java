@@ -14,4 +14,6 @@ public interface CareerInfoMapper {
     void insertCareerInfo(CareerInfoDto careerInfoDto);
 
     void updateCareerInfo(CareerInfoDto careerInfoDto);
+
+    void deleteCareerInfo(CareerInfoDto careerInfoDto);
 }

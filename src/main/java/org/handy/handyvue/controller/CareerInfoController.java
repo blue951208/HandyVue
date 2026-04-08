@@ -60,4 +60,19 @@ public class CareerInfoController {
 
         return result;
     }
+
+    @GetMapping("/delete")
+    public Map<String, Object> deleteCareerInfo(CareerInfoDto careerInfoDto) {
+        System.out.println("deleteCareerInfo called with: " + careerInfoDto);
+        Map<String, Object> result = new HashMap<>();
+        try {
+            careerInfoService.deleteCareerInfo(careerInfoDto);
+            result.put("status", "success");
+        } catch (Exception e) {
+            result.put("status", "error");
+            System.out.println("Error delete career info: " + e.getMessage());
+        }
+
+        return result;
+    }
 }

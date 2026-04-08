@@ -12,4 +12,6 @@ public interface CareerInfoService {
     void insertCareerInfo(CareerInfoDto careerInfoDto);
 
     void updateCareerInfo(CareerInfoDto careerInfoDto);
+
+    void deleteCareerInfo(CareerInfoDto careerInfoDto);
 }

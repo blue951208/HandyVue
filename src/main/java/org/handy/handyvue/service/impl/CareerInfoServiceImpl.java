@@ -33,4 +33,9 @@ public class CareerInfoServiceImpl implements CareerInfoService {
     public void updateCareerInfo(CareerInfoDto careerInfoDto) {
         careerInfoMapper.updateCareerInfo(careerInfoDto);
     }
+
+    @Override
+    public void deleteCareerInfo(CareerInfoDto careerInfoDto) {
+        careerInfoMapper.deleteCareerInfo(careerInfoDto);
+    }
 }

@@ -56,6 +56,27 @@ const updateCareerInfo = async () => {
   };
 }
 
+const deleteCareerInfo = async (vcareerId: string) => {
+  if (!confirm('정말 삭제하시겠습니까?')) {
+    return;
+  }
+
+  console.log('deleteCareerInfo : ', vcareerId);
+  const res = await axios.get('http://localhost:8080/api/career/delete', {
+    params: {
+      vCareerId: vcareerId
+    }
+  });
+
+  console.log('deleteCareerInfo : ', res);
+  if (res.status === 200) {
+    alert('삭제 성공');
+    getCarrerList();
+  } else {
+    alert('삭제 실패');
+  }
+};
+
 onMounted(() => {
   getCarrerList();
 })
@@ -91,8 +112,9 @@ onMounted(() => {
     <colgroup>
       <col style="width: 14%" />
       <col style="width: 50%" />
-      <col style="width: 18%" />
-      <col style="width: 18%" />
+      <col style="width: 16%" />
+      <col style="width: 16%" />
+      <col style="width: 3%; align-content: center"/>
     </colgroup>
     <thead>
       <tr>
@@ -100,6 +122,7 @@ onMounted(() => {
         <th>경력명</th>
         <th>시작 기간</th>
         <th>종료 기간</th>
+        <th>삭제</th>
       </tr>
     </thead>
     <tbody>
@@ -108,6 +131,7 @@ onMounted(() => {
         <td>{{ career.vCareerNm }}</td>
         <td>{{ career.dStartDtm }}</td>
         <td>{{ career.dEndDtm }}</td>
+        <td style="text-align: center"><button @click="deleteCareerInfo(career.vCareerId)">삭제</button></td>
       </tr>
     </tbody>
   </table>

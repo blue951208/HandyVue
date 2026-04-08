@@ -54,4 +54,11 @@
          WHERE v_career_id = #{vCareerId}
     </update>
 
+    <update id="deleteCareerInfo" parameterType="org.handy.handyvue.dto.CareerInfoDto">
+        UPDATE career_info
+           SET v_flag_del = 'Y'
+         WHERE v_flag_del = 'N'
+           AND v_career_id = #{vCareerId}
+    </update>
+
 </mapper>
