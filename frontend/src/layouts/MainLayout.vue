@@ -130,7 +130,7 @@ onMounted(() => {
 .admin-container {
   display: flex;
   height: 100vh;
-  width: 100vw;
+  width: 97vw;
 }
 
 .sidebar {
