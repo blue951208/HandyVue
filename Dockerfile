@@ -1,10 +1,11 @@
 # 1단계: 리액트 빌드
-FROM node:18 AS frontend-build
+FROM node:20 AS frontend-build
 WORKDIR /frontend
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
-RUN npm run build-only
+# 경고 무시 옵션을 추가하여 빌드 실행
+RUN CI=false npm run build-only
 
 # 2단계: 스프링 부트 빌드
 FROM gradle:8-jdk17 AS backend-build
