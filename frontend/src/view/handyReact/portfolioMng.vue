@@ -19,13 +19,13 @@ const careerList = ref<Carrer[]>([]);
 
 const getCarrerList = async () => {
   console.log('getCarrerList');
-  const response = await axios.get("http://localhost:8080/api/career/list");
+  const response = await axios.get("/api/career/list");
   careerList.value = response.data;
 }
 
 const getCareerInfo = async (vcareerId: string) => {
   console.log('getCareerInfo : ', vcareerId);
-  const response = await axios.get('http://localhost:8080/api/career/detail', {
+  const response = await axios.get('/api/career/detail', {
     params: {
       vCareerId: vcareerId
     }
@@ -37,7 +37,7 @@ const getCareerInfo = async (vcareerId: string) => {
 
 const updateCareerInfo = async () => {
   console.log('chk : ',careerInfo.value);
-  const url = careerInfo.value.vCareerId ? "http://localhost:8080/api/career/update" : "http://localhost:8080/api/career/insert";
+  const url = careerInfo.value.vCareerId ? "/api/career/update" : "/api/career/insert";
   const res = await axios.post(url, careerInfo.value);
   console.log('res : ',res);
   if (res.status === 200) {
@@ -62,7 +62,7 @@ const deleteCareerInfo = async (vcareerId: string) => {
   }
 
   console.log('deleteCareerInfo : ', vcareerId);
-  const res = await axios.get('http://localhost:8080/api/career/delete', {
+  const res = await axios.get('/api/career/delete', {
     params: {
       vCareerId: vcareerId
     }
