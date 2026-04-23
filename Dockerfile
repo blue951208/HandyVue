@@ -4,7 +4,7 @@ WORKDIR /frontend
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
-RUN npm run build
+RUN npm run build-only
 
 # 2단계: 스프링 부트 빌드
 FROM gradle:8-jdk17 AS backend-build
