@@ -1,15 +1,22 @@
 <template>
-  <div v-show="toggle">true</div>
-  <div v-show="!toggle">false</div>
-  <button @click="onToggle">toggle</button>
+<!--  <div v-show="toggle">true</div>-->
+<!--  <div v-show="!toggle">false</div>-->
+<!--  <button @click="onToggle">toggle</button>-->
+  <h4>count : {{count}}</h4>
+  <h4>double Count : {{doubleCount}}</h4>
+  <button @click="count++">Add one</button>
 
   <div class="container">
     <h2>To-Do List</h2>
+    <input class="form-control" type="text"
+           v-model="searchText"
+           placeholder="Search">
+    <hr/>
     <TodoSimpleForm @add-todo="addTodo"/>
-    <div v-if="!todos.length">
-      추가된 Todo 가 없습니다.
+    <div v-if="!filterdTodos.length">
+      There is nothing to display
     </div>
-    <TodoList :todos="todos"
+    <TodoList :todos="filterdTodos"
               @toggle-todo="toggleTodo"
               @delete-todo="deleteTodo"
     />
@@ -17,7 +24,7 @@
 </template>
 
 <script>
-import {ref} from 'vue';
+import {ref,computed} from 'vue';
 import TodoSimpleForm from "@/components/inflearn/TodoSimpleForm.vue";
 import TodoList from "@/components/inflearn/TodoList.vue";
 /*
@@ -37,6 +44,17 @@ export default {
     const toggle = ref(false);
     const name = ref("");
     const todos = ref([]);
+
+    const searchText = ref('');
+    const filterdTodos = computed(() => {
+      if (searchText.value) {
+        return todos.value.filter(todo => {
+          return todo.subject.includes(searchText.value);
+        })
+      }
+
+      return todos.value;
+    });
 
     const todoStyle = {
       textDecoration: 'line-through',
@@ -65,6 +83,12 @@ export default {
       todos.value.push(newTodo);
     }
 
+    const count = ref(1);
+    /* computed 는 계산된 값을 반환하는 반응형 데이터 선언할 때 사용 */
+    const doubleCount = computed(() => {
+      return count.value * 2
+    });
+
     return {
       toggle,
       onToggle,
@@ -75,6 +99,10 @@ export default {
       addTodo,
       toggleTodo,
       deleteTodo,
+      count,
+      doubleCount,
+      searchText,
+      filterdTodos,
     };
   }
 }
