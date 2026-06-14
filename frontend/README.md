@@ -40,3 +40,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### 인프런 개발용_json-server 실행
+
+```json-server --watch db.json
