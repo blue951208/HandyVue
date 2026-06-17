@@ -122,15 +122,17 @@ onMounted(() => {
       <section class="page-view">
         <!-- 현재 url 경로에 inflearn 이 포함된 경우만 노출 -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="$route.path.includes('/inflearn')">
-          <router-link class="navbar-brand" to="/inflearn">InflearnHome</router-link>
+          <router-link class="navbar-brand" :to="{name: 'inflearnHome'}">InflearnHome</router-link>
 
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <router-link class="nav-link" to="/inflearn/todos">Inflearn_Todos <span class="sr-only">(current)</span></router-link>
+              <router-link class="nav-link" :to="{name:'inflearnTodos'}">Inflearn_Todos <span class="sr-only">(current)</span></router-link>
             </li>
           </ul>
         </nav>
-        <RouterView />
+        <div class="container">
+          <router-view/>
+        </div>
       </section>
     </main>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
   <h2>To-Do Pages</h2>
   <input class="form-control" type="text"
          v-model="searchText"
@@ -159,17 +159,17 @@ export default {
       }
     };
 
-    const toggleTodo = async (index) => {
+    const toggleTodo = async (index, checked) => {
       console.log('toggleTodo');
       error.value = '';
       const id = todos.value[index].id;
 
       try {
         await axios.patch("http://localhost:3000/todos/" + id, {
-          completed: !todos.value[index].completed
+          completed: checked
         });
 
-        todos.value[index].completed = !todos.value[index].completed;
+        todos.value[index].completed = checked
       } catch(err) {
         console.log(err);
         error.value = 'Something went wrong while update todo.';
