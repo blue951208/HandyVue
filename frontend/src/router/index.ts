@@ -35,10 +35,15 @@ const router = createRouter({
                     component: () => import('../view/inflearn/pages/todos/index.vue') as any /* 해당 파일에서 자바스크립트 사용 */
                 },
                 {
+                    path: '/inflearn/todos/create',
+                    name: 'inflearnTodoCreate',
+                    component: () => import('../view/inflearn/pages/todos/create/index.vue') as any /* 해당 파일에서 자바스크립트 사용 */
+                },
+                {
                     path: '/inflearn/todos/:id',
                     name: 'inflearnTodo',
                     component: () => import('../view/inflearn/pages/todos/_id.vue') as any /* 해당 파일에서 자바스크립트 사용 */
-                }
+                },
             ]
         }
     ]

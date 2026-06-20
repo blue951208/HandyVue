@@ -1,13 +1,16 @@
 <template>
   <div>
-  <h2>To-Do Pages</h2>
-  <input class="form-control" type="text"
-         v-model="searchText"
-         placeholder="Search"
-         @keyup.enter="searchTodo"
-  >
+    <div class="d-flex justify-content-between mb-3">
+      <h2>To-Do List</h2>
+      <button
+          class="btn btn-primary"
+          @click="moveToCreatePage"
+      >
+        Create Todo
+      </button>
+    </div>
   <hr/>
-  <TodoSimpleForm @add-todo="addTodo"/>
+<!--  <TodoSimpleForm @add-todo="addTodo"/>-->
   <div style="color: red">
     {{error}}
   </div>
@@ -52,12 +55,19 @@
     </ul>
   </nav>
   </div>
+  <Toast v-if="showToast"
+         :message="toastMessage"
+         :type="toastAlertType"
+  />
 </template>
 <script>
 import {ref, computed, watch} from 'vue';
 import axios from "axios";
-import TodoSimpleForm from "@/components/inflearn/TodoSimpleForm.vue";
+// import TodoSimpleForm from "@/components/inflearn/TodoSimpleForm.vue";
 import TodoList from "@/components/inflearn/TodoList.vue";
+import Toast from '@/components/inflearn/Toast.vue';
+import {useToast} from "@/composable/inflearn/toast.js";
+import {useRouter}  from "vue-router";
 /*
  ref, reactive 로 반응형 데이터 선언 가능
  reactive 는 객체,Array 형태의 데이터를 선언할 때 사용
@@ -68,10 +78,12 @@ import TodoList from "@/components/inflearn/TodoList.vue";
 
 export default {
   components: {
-    TodoSimpleForm,
-    TodoList
+    // TodoSimpleForm,
+    TodoList,
+    Toast,
   },
   setup: function () {  /* <script setup> 태그랑 중목으로 사용 불가 */
+    const router = useRouter();
     const toggle = ref(false);
     const name = ref("");
     const todos = ref([]);
@@ -82,12 +94,16 @@ export default {
     const currentPage = ref(1);
     const searchText = ref('');
 
+
     // 반응성을 가진 데이터를 사용하는 경우 호출(ref, reactive)
     // watchEffect(() => {});
 
     const numberOfPages = computed(() => {
       return Math.ceil(numberOfTodos.value/perPage.value);
     })
+
+    const { showToast, toastMessage, toastAlertType, tiggerToast } = useToast();
+
 
     /**
      * page 매개변수값이 없을경우 currentPage.value 를 사용하여 현재 페이지를 유지하도록 함
@@ -103,6 +119,7 @@ export default {
       } catch (err) {
         console.log(err);
         error.value = 'Something went wrong while fetching todos.';
+        tiggerToast('[ERROR]:getTodos :: Something went wrong while fetching todos.', 'danger');
       }
     }
 
@@ -145,16 +162,15 @@ export default {
       toggle.value = !toggle.value;
     }
 
-    const deleteTodo = async (index) => {
-      console.log('deleteTodo');
+    const deleteTodo = async (id) => {
       error.value = '';
-      const id = todos.value[index].id;
       try {
         await axios.delete("http://localhost:3000/todos/" + id);
         // todos.value.splice(index, 1);
         getTodos(1);
       } catch (err) {
         console.log(err);
+        tiggerToast('[ERROR]:deleteTodos :: Something went wrong while delete todo.', 'danger');
         error.value = 'Something went wrong while delete todo.';
       }
     };
@@ -203,6 +219,12 @@ export default {
       return count.value * 2
     });
 
+    const moveToCreatePage = () => {
+      router.push({
+        name: 'inflearnTodoCreate'
+      })
+    }
+
     return {
       toggle,
       onToggle,
@@ -222,6 +244,10 @@ export default {
       currentPage,
       getTodos,
       searchTodo,
+      showToast,
+      toastMessage,
+      toastAlertType,
+      moveToCreatePage,
     };
   }
 }
