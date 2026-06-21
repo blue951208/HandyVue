@@ -1,9 +1,10 @@
 <template>
   <Modal>
-    <template v-slot:title>
+    <template #title>
       Delete Todo!
     </template>
-    <template v-slot:body>
+    <!-- v-slot: => # 으로 대체가능 -->
+    <template #body>
       진짜 삭제하시겠습니까?
     </template>
     <template v-slot:footer>

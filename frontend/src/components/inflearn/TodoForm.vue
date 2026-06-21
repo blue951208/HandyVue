@@ -8,18 +8,23 @@
   >
     <div class="row">
       <div class="col-6">
-        <div class="form-group">
-          <label>Subject</label>
-          <input
-              v-model="todo.subject"
-              type="text"
-              class="form-control"
-          >
-        </div>
-        <div v-if="subjectError"
-          class="text-red">
-          {{subjectError}}
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label>Subject</label>-->
+<!--          <input-->
+<!--              v-model="todo.subject"-->
+<!--              type="text"-->
+<!--              class="form-control"-->
+<!--          >-->
+<!--        </div>-->
+<!--        <div v-if="subjectError"-->
+<!--          class="text-red">-->
+<!--          {{subjectError}}-->
+<!--        </div>-->
+        <Input label="Subject"
+               v-model:subject="todo.subject"
+               :subject="todo.subject"
+               :error="subjectError"
+        />
       </div>
       <div v-if="editing" class="col-6">
         <div class="form-group">
@@ -74,10 +79,12 @@ import { ref, computed  } from 'vue';
 import _ from 'lodash';
 import Toast from '@/components/inflearn/Toast.vue';
 import { useToast } from '@/composable/inflearn/toast.js';
+import Input from '@/components/inflearn/Input.vue';
 
 export default {
   components: {
-    Toast
+    Toast,
+    Input,
   },
   props: {
     editing: {
@@ -104,6 +111,8 @@ export default {
     } = useToast();
 
     const todoId = route.params.id
+
+
     const getTodo = async () => {
       loading.value = true;
       try {
@@ -165,6 +174,12 @@ export default {
         originalTodo.value = {...res.data};
         const message = props.editing ? 'Successfully updated!' : 'Successfully created!';
         triggerToast(message);
+
+        if (!props.editing) {
+          router.push({
+            name: 'inflearnTodo'
+          })
+        }
       } catch (error) {
         console.log(error);
         triggerToast('Something went wrong', 'danger')
@@ -189,9 +204,6 @@ export default {
 
 <!-- scoped 속성은 해당 컴포넌트에서만 css 적용되도록 제한 -->
 <style scoped>
-.text-red{
-  color: red;
-}
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }

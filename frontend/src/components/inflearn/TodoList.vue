@@ -1,31 +1,38 @@
 <template>
-  <div v-for="(todo, index) in todos"
-       :key="todo.id"
-       class="card mt-2">
-    <div class="card-body p-2 d-flex align-items-center" @click="moveToPage(todo.id)"
-        style="cursor: pointer">
-      <div class="flex-grow-1">
-        <input class="ml-2 mr-2"
-               type="checkbox"
-               :value="todo.completed" :checked="todo.completed"
-               @change="toggleTodo(index, $event)"
-               @click.stop
-        >
-        <!-- @change 이벤트에 경우 click 이벤트 다음으로 체크되기 때문에 아래 따로 추가 -->
-        <span :class="{ todo: todo.completed }">  <!-- todo.completed 가 true 일때 todo 클래스를 지정 -->
-          {{todo.subject}}
+<!--  <div v-for="(todo, index) in todos"-->
+<!--       :key="todo.id"-->
+<!--       class="card mt-2">-->
+  <List :items="todos">
+    <template v-slot:default="{item, index}">
+      <div class="card-body p-2 d-flex align-items-center"
+           @click="moveToPage(item.id)"
+           style="cursor: pointer"
+      >
+        <div class="flex-grow-1">
+          <input class="ml-2 mr-2"
+                 type="checkbox"
+                 :value="item.completed"
+                 :checked="item.completed"
+                 @change="toggleTodo(index, $event)"
+                 @click.stop
+          >
+          <!-- @change 이벤트에 경우 click 이벤트 다음으로 체크되기 때문에 아래 따로 추가 -->
+          <span :class="{ todo: item.completed }">  <!-- todo.completed 가 true 일때 todo 클래스를 지정 -->
+          {{item.subject}}
         </span>
+        </div>
+        <div>
+          <button class="btn btn-danger btn-sm"
+                  @click.stop="openModal(item.id)"
+          >
+            <!-- @click.stop 으로 이벤트 버블링 차단 -->
+            Delete
+          </button>
+        </div>
       </div>
-      <div>
-        <button class="btn btn-danger btn-sm"
-                @click.stop="openModal(todo.id)"
-        >
-          <!-- @click.stop 으로 이벤트 버블링 차단 -->
-          Delete
-        </button>
-      </div>
-    </div>
-  </div>
+    </template>
+  </List>
+<!--  </div>-->
   <teleport to="#modal">
     <Modal v-if="showModal"
            @close="closeModal"
@@ -48,9 +55,11 @@ import { useRouter } from "vue-router";
 import Modal from "@/components/inflearn/DeleteModal.vue";
 import { ref } from "vue";
 
+import List from '@/components/inflearn/List.vue';
 export default {
   components: {
-    Modal
+    Modal,
+    List,
   },
   props: ['todos'], /* 부모 컴포넌트에서 지정해 받아오는 props */
   emits:['toggle-todo','delete-todo'], /* 부모 컴포넌트로 이벤트 전달할 때 명시적으로 선언 */

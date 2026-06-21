@@ -3,7 +3,17 @@ import { RouterView, useRouter } from 'vue-router';
 import {onMounted, ref} from "vue";
 import {getMenuList} from "@/api/menu.ts";
 
+import Toast from '@/components/inflearn/Toast.vue';
+import {useToast} from "@/composable/inflearn/toast.js";
+
 const router = useRouter();
+
+const {
+  toastMessage,
+  toastAlertType,
+  showToast,
+  triggerToast
+} = useToast();
 
 // 1. 데이터 타입 정의
 interface MenuItem {
@@ -136,6 +146,11 @@ onMounted(() => {
       </section>
     </main>
   </div>
+  <Toast
+      v-if="showToast"
+      :message="toastMessage"
+      :type="toastAlertType"
+  />
 </template>
 
 <style scoped>

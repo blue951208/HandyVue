@@ -1,4 +1,10 @@
 import { ref, onUnmounted } from 'vue';
+/**
+ * export default useToast 로 하는 경우
+ * import useToast from 으로 사용 가능하지만
+ * export const useToast 로 하는 경우
+ * import { useToast } from 으로 사용 가능하다.
+ */
 export const useToast = () => {
     const toastMessage = ref('');
     const toastAlertType = ref('');
