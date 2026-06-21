@@ -148,10 +148,9 @@ export default {
     }
 
     const onSave = async () => {
-      subjectError.value = ''
+      subjectError.value = '';
       if (!todo.value.subject) {
         subjectError.value = 'Subject is required';
-        triggerToast('Subject is required', 'danger');
         return;
       }
 
@@ -160,24 +159,23 @@ export default {
         const data = {
           subject: todo.value.subject,
           completed: todo.value.completed,
-          body: todo.value.body
-        }
-
+          body: todo.value.body,
+        };
         if (props.editing) {
           res = await axios.put(`http://localhost:3000/todos/${todoId}`, data);
+          originalTodo.value = {...res.data};
         } else {
           res = await axios.post('http://localhost:3000/todos', data);
           todo.value.subject = '';
           todo.value.body = '';
         }
 
-        originalTodo.value = {...res.data};
-        const message = props.editing ? 'Successfully updated!' : 'Successfully created!';
+        const message = 'Successfully ' + (props.editing ? 'Updated!' : 'Created!');
         triggerToast(message);
 
         if (!props.editing) {
           router.push({
-            name: 'inflearnTodo'
+            name: 'inflearnTodos'
           })
         }
       } catch (error) {
