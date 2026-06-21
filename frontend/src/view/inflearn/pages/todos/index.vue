@@ -55,10 +55,10 @@
     </ul>
   </nav>
   </div>
-  <Toast v-if="showToast"
-         :message="toastMessage"
-         :type="toastAlertType"
-  />
+<!--  <Toast v-if="showToast"-->
+<!--         :message="toastMessage"-->
+<!--         :type="toastAlertType"-->
+<!--  />-->
 </template>
 <script>
 import {ref, computed, watch} from 'vue';

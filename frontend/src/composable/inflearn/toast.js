@@ -11,9 +11,9 @@ import {computed} from "vue";
 
 export const useToast = () => {
     const store = useStore();
-    const toastMessage = computed(() => store.getters.toastMessageWithSmile);
-    const toastAlertType = computed(() => store.state.toastAlertType);
-    const showToast = computed(() => store.state.showToast);
+    const toastMessage = computed(() => store.getters['toast/toastMessageWithSmile']);
+    const toastAlertType = computed(() => store.state.toast.toastAlertType);
+    const showToast = computed(() => store.state.toast.showToast);
     // const timeout = computed(() => store.state.timeout);
     const triggerToast = (message, type = 'success') => {
         // toastMessage.value = message;
@@ -26,7 +26,7 @@ export const useToast = () => {
         // }, 5000)
 
         // store 에 actions 를 통해서 triggerToast 를 호출하도록 수정
-        store.dispatch("triggerToast", message, type);
+        store.dispatch("toast/triggerToast", message, type);
     }
 
     // onUnmounted(() => {

@@ -63,13 +63,13 @@
       Cancel
     </button>
   </form>
-  <transition name="fade">
-    <Toast
-        v-if="showToast"
-        :message="toastMessage"
-        :type="toastAlertType"
-    />
-  </transition>
+<!--  <transition name="fade">-->
+<!--    <Toast-->
+<!--        v-if="showToast"-->
+<!--        :message="toastMessage"-->
+<!--        :type="toastAlertType"-->
+<!--    />-->
+<!--  </transition>-->
 </template>
 
 <script>
@@ -77,13 +77,12 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { ref, computed  } from 'vue';
 import _ from 'lodash';
-import Toast from '@/components/inflearn/Toast.vue';
+// import Toast from '@/components/inflearn/Toast.vue';
 import { useToast } from '@/composable/inflearn/toast.js';
 import Input from '@/components/inflearn/Input.vue';
 
 export default {
   components: {
-    Toast,
     Input,
   },
   props: {
@@ -201,16 +200,16 @@ export default {
 </script>
 
 <!-- scoped 속성은 해당 컴포넌트에서만 css 적용되도록 제한 -->
-<style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s;
-}
+<!--<style scoped>-->
+<!--.fade-enter-active, .fade-leave-active {-->
+<!--  transition: opacity 0.5s;-->
+<!--}-->
 
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-}
+<!--.fade-enter-from, .fade-leave-to {-->
+<!--  opacity: 0;-->
+<!--}-->
 
-.fade-enter-to, .fade-leave-to {
-  opacity: 1;
-}
-</style>
+<!--.fade-enter-to, .fade-leave-to {-->
+<!--  opacity: 1;-->
+<!--}-->
+<!--</style>-->
