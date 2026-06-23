@@ -22,38 +22,12 @@
             @delete-todo="deleteTodo"
   />
   <hr/>
-  <nav aria-label="Page navigation example">
-    <ul class="pagination">
-      <li
-          v-if="currentPage !== 1"
-          class="page-item"
-      >
-        <a class="page-link" href="#"
-           @click="getTodos(currentPage - 1)">
-          Previous
-        </a>
-      </li>
-      <li class="page-item"
-          v-for="pageNum in numberOfPages"
-          :key="pageNum"
-          :class="currentPage === pageNum ? 'active' : ''"
-      >
-        <a class="page-link"
-           @click="getTodos(pageNum)"
-           href="#">
-          {{pageNum}}
-        </a>
-      </li>
-      <li  v-if="numberOfPages !== currentPage"
-           class="page-item"
-      >
-        <a class="page-link" href="#"
-           @click="getTodos(currentPage + 1)">
-          Next
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <Pagination
+      v-if="todos.length"
+      :numberOfPages="numberOfPages"
+      :currentPage="currentPage"
+      @click="getTodos"
+  />
   </div>
 <!--  <Toast v-if="showToast"-->
 <!--         :message="toastMessage"-->
@@ -68,6 +42,7 @@ import TodoList from "@/components/inflearn/TodoList.vue";
 import Toast from '@/components/inflearn/Toast.vue';
 import {useToast} from "@/composable/inflearn/toast.js";
 import {useRouter}  from "vue-router";
+import Pagination from "@/components/inflearn/Pagination.vue";
 /*
  ref, reactive 로 반응형 데이터 선언 가능
  reactive 는 객체,Array 형태의 데이터를 선언할 때 사용
@@ -81,6 +56,7 @@ export default {
     // TodoSimpleForm,
     TodoList,
     Toast,
+    Pagination,
   },
   setup: function () {  /* <script setup> 태그랑 중목으로 사용 불가 */
     const router = useRouter();
@@ -102,7 +78,7 @@ export default {
       return Math.ceil(numberOfTodos.value/perPage.value);
     })
 
-    const { showToast, toastMessage, toastAlertType, tiggerToast } = useToast();
+    const { showToast, toastMessage, toastAlertType, triggerToast } = useToast();
 
 
     /**
@@ -119,7 +95,7 @@ export default {
       } catch (err) {
         console.log(err);
         error.value = 'Something went wrong while fetching todos.';
-        tiggerToast('[ERROR]:getTodos :: Something went wrong while fetching todos.', 'danger');
+        triggerToast('[ERROR]:getTodos :: Something went wrong while fetching todos.', 'danger');
       }
     }
 
