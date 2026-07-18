@@ -14,7 +14,7 @@ const scheduleList = ref<Schedule[]>([]);
 
 const getScheduleList = async () => {
   console.log('getScheduleList');
-  const response = await axios.get("http://localhost:8080/api/scheduleMst/list");
+  const response = await axios.get("/api/scheduleMst/list");
   scheduleList.value = response.data;
 }
 

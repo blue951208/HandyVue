@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
   <div style="display: flex;">
     <main style="flex: 1; padding: 20px;">
@@ -10,6 +5,17 @@ import TheWelcome from './components/TheWelcome.vue'
     </main>
   </div>
 </template>
+
+<script>
+export default {
+  setup: function () {  /* <script setup> 태그랑 중목으로 사용 불가 */
+
+    return {
+
+    };
+  }
+}
+</script>
 
 <!--<template>-->
 <!--  <header>-->

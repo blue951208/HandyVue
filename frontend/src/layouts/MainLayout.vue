@@ -3,7 +3,17 @@ import { RouterView, useRouter } from 'vue-router';
 import {onMounted, ref} from "vue";
 import {getMenuList} from "@/api/menu.ts";
 
+import Toast from '@/components/inflearn/Toast.vue';
+import {useToast} from "@/composable/inflearn/toast.js";
+
 const router = useRouter();
+
+const {
+  toastMessage,
+  toastAlertType,
+  showToast,
+  triggerToast
+} = useToast();
 
 // 1. 데이터 타입 정의
 interface MenuItem {
@@ -120,10 +130,29 @@ onMounted(() => {
         <h2>내용</h2>
       </header>
       <section class="page-view">
-        <RouterView />
+        <!-- 현재 url 경로에 inflearn 이 포함된 경우만 노출 -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="$route.path.includes('/inflearn')">
+          <router-link class="navbar-brand" :to="{name: 'inflearnHome'}">InflearnHome</router-link>
+
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <router-link class="nav-link" :to="{name:'inflearnTodos'}">Inflearn_Todos <span class="sr-only">(current)</span></router-link>
+            </li>
+          </ul>
+        </nav>
+        <div class="container">
+          <router-view/>
+        </div>
       </section>
     </main>
   </div>
+  <transition name="slide">
+    <Toast
+        v-if="showToast"
+        :message="toastMessage"
+        :type="toastAlertType"
+    />
+  </transition>
 </template>
 
 <style scoped>
@@ -227,5 +256,22 @@ onMounted(() => {
   color: #42b983;
   font-weight: bold;
   background-color: #f0fff4;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.5s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.slide-enter-to,
+.slide-leave-from {
+  opacity: 1;
+  transform: translateY(0px);
 }
 </style>
