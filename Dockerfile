@@ -9,7 +9,7 @@ COPY frontend/.env.production ./
 
 COPY frontend/ ./
 # 경고 무시 옵션을 추가하여 빌드 실행
-RUN CI=false npm run build-only
+RUN npm run build
 
 # 2단계: 스프링 부트 빌드
 FROM gradle:8-jdk17 AS backend-build
