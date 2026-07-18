@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from "@/api/axios";
 import {onMounted, ref} from "vue";
-
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 interface Carrer {
   vCareerId: string;
   vCareerNm: string;
