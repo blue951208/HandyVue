@@ -81,8 +81,6 @@ import _ from 'lodash';
 import { useToast } from '@/composable/inflearn/toast.js';
 import Input from '@/components/inflearn/Input.vue';
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL;
-
 export default {
   components: {
     Input,
