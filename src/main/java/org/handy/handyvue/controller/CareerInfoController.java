@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/career")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5174")
 public class CareerInfoController {
     @Autowired
     private CareerInfoService careerInfoService;
