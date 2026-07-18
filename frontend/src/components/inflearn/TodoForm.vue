@@ -74,7 +74,7 @@
 
 <script>
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
+import axios from '@/api/axios';
 import { ref, computed  } from 'vue';
 import _ from 'lodash';
 // import Toast from '@/components/inflearn/Toast.vue';
