@@ -25,7 +25,13 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    set('springAiVersion', "1.0.9")
+}
+
 dependencies {
+    implementation platform("org.springframework.ai:spring-ai-bom:1.0.9")
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -34,6 +40,18 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
     runtimeOnly 'org.postgresql:postgresql' // PostgreSQL 드라이버 추가
+
+    implementation 'org.springframework.ai:spring-ai-starter-model-ollama'
+//    implementation 'org.springframework.ai:spring-ai-starter-model-openai'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.17'
+
+    // vector store
+    implementation("org.springframework.ai:spring-ai-vector-store:1.0.9")
+    // tika Reader
+    implementation("org.springframework.ai:spring-ai-tika-document-reader:1.0.9")
+    implementation("org.springframework.ai:spring-ai-rag:1.0.9")
+
+    implementation 'org.springframework.ai:spring-ai-starter-vector-store-elasticsearch'
 }
 
 tasks.named('test') {
