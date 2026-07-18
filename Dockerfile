@@ -3,6 +3,10 @@ FROM node:18 AS frontend-build
 WORKDIR /frontend
 COPY frontend/package*.json ./
 RUN npm install
+
+# 🌟 .env.production 파일을 명시적으로 복사 (빌드 전에 반드시 있어야 함)
+COPY .env.production ./
+
 COPY frontend/ ./
 RUN npm run build
 
